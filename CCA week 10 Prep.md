@@ -9,19 +9,19 @@
 
 ## Week 0 · Setup
 
-- [ ] Python 3.13+ installed on personal machine
-- [ ] VS Code installed with Python extension
-- [ ] Anthropic library installed (`pip install anthropic`)
-- [ ] Console account, joined Campbell Consulting workspace
-- [ ] API key created with 90-day expiry, saved securely
-- [ ] `ANTHROPIC_API_KEY` environment variable set
-- [ ] GitHub repo created
-- [ ] Scoping conversation booked with Gavin
+- [x] Python 3.13+ installed on personal machine
+- [x] VS Code installed with Python extension
+- [x] Anthropic library installed (`pip install anthropic`)
+- [x] Console account, joined Campbell Consulting workspace
+- [x] API key created with 90-day expiry, saved securely
+- [x] `ANTHROPIC_API_KEY` environment variable set
+- [x] GitHub repo created
+- [x] Scoping conversation booked with Gavin
 
 ## Week 1 · 27 Jul – 2 Aug · Claude API basics I
 
-- [ ] `hello.py` runs and prints a Claude response
-- [ ] Started "Building with the Claude API" on Skilljar
+- [x] `hello.py` runs and prints a Claude response
+- [x] Started "Building with the Claude API" on Skilljar
 - [ ] Multi-turn conversation script (message history)
 - [ ] Streaming response script
 - [ ] System prompt experiments
