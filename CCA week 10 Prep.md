@@ -25,7 +25,7 @@
 - [x] Multi-turn conversation script (message history)
 - [x] Streaming response script
 - [x] System prompt experiments
-- [ ] 3+ scripts committed and pushed to repo
+- [x] 3+ scripts committed and pushed to repo
 
 ## Week 2 · 3 – 9 Aug · Claude API basics II
 
