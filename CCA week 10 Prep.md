@@ -22,14 +22,14 @@
 
 - [x] `hello.py` runs and prints a Claude response
 - [x] Started "Building with the Claude API" on Skilljar
-- [ ] Multi-turn conversation script (message history)
-- [ ] Streaming response script
-- [ ] System prompt experiments
+- [x] Multi-turn conversation script (message history)
+- [x] Streaming response script
+- [x] System prompt experiments
 - [ ] 3+ scripts committed and pushed to repo
 
 ## Week 2 · 3 – 9 Aug · Claude API basics II
 
-- [ ] Structured output (JSON mode) script
+- [x] Structured output (JSON mode) script
 - [ ] Finished "Building with the Claude API" course
 - [ ] README explains each script
 - [ ] Can explain messages, system, stop_reason, usage from memory
