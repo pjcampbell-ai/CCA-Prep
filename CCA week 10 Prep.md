@@ -30,10 +30,10 @@
 ## Week 2 · 3 – 9 Aug · Claude API basics II
 
 - [x] Structured output (JSON mode) script
-- [ ] Finished "Building with the Claude API" course
-- [ ] README explains each script
-- [ ] Can explain messages, system, stop_reason, usage from memory
-- [ ] Friday week-2 check-in with Claude
+- [x] Finished "Building with the Claude API" course
+- [x] README explains each script
+- [x] Can explain messages, system, stop_reason, usage from memory
+- [x] Friday week-2 check-in with Claude
 
 ## Week 3 · 10 – 16 Aug · Tool use I
 
