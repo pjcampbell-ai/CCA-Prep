@@ -37,8 +37,8 @@
 
 ## Week 3 · 10 – 16 Aug · Tool use I
 
-- [ ] Read tool use docs end-to-end
-- [ ] Single-tool script (calculator or similar)
+- [x] Read tool use docs end-to-end
+- [x] Single-tool script (calculator or similar)
 - [ ] Two-tool script
 - [ ] Can trace the tool loop on paper without code
 
