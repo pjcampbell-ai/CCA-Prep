@@ -52,7 +52,7 @@
 
 ## Week 5 · 24 – 30 Aug · MCP I
 
-- [] Revisit "Intro to MCP" (Skilljar refresher)
+- [ ] Revisit "Intro to MCP" (Skilljar refresher)
 - [ ] Read MCP spec end-to-end
 - [ ] Installed a reference MCP server (filesystem or GitHub)
 - [ ] Used the reference server from Claude Desktop
