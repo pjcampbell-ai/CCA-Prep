@@ -39,20 +39,20 @@
 
 - [x] Read tool use docs end-to-end
 - [x] Single-tool script (calculator or similar)
-- [ ] Two-tool script
-- [ ] Can trace the tool loop on paper without code
+- [x] Two-tool script
+- [x] Can trace the tool loop on paper without code
 
 ## Week 4 · 17 – 23 Aug · Tool use II
 
-- [ ] Three-tool script with one real external API
-- [ ] Tool error handling implemented
-- [ ] Non-existent-tool and loop protection
-- [ ] README section on tool schema design
+- [x] Three-tool script with one real external API
+- [x] Tool error handling implemented
+- [x] Non-existent-tool and loop protection
+- [x] README section on tool schema design
 - [ ] Can write the tool loop from memory
 
 ## Week 5 · 24 – 30 Aug · MCP I
 
-- [ ] Revisit "Intro to MCP" (Skilljar refresher)
+- [x] Revisit "Intro to MCP" (Skilljar refresher)
 - [ ] Read MCP spec end-to-end
 - [ ] Installed a reference MCP server (filesystem or GitHub)
 - [ ] Used the reference server from Claude Desktop
