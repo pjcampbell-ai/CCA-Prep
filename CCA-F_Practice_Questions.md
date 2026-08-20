@@ -37,37 +37,37 @@ messages = [
 
 What's the fix?
 
-- **a)** Reorder so user and assistant strictly alternate
-- **b)** Remove the system message from `messages` and pass it via the `system=` parameter on `client.messages.create()`
-- **c)** Change `"system"` to lowercase throughout
-- **d)** Add an assistant message before the system one
+- **a)** Add an assistant message before the system one
+- **b)** Remove the system message from <code>messages</code> and pass it via the <code>system=</code> parameter on <code>client.messages.create()</code>
+- **c)** Change <code>"system"</code> to lowercase throughout
+- **d)** Reorder so user and assistant strictly alternate
 
 ## Q2
 
 You're building a customer support bot. It should always speak formally, refuse off-topic queries, and escalate refund requests. Robust design says:
 
-- **a)** Include these rules in every user message
-- **b)** Set them once via `system=` parameter on `client.messages.create()`
-- **c)** Prepend as an `{"role": "system", ...}` in the messages list
-- **d)** Set them via `assistant=` parameter
+- **a)** Prepend as an <code>{"role": "system", ...}</code> in the messages list
+- **b)** Include these rules in every user message
+- **c)** Set them once via <code>system=</code> parameter on <code>client.messages.create()</code>
+- **d)** Set them via <code>assistant=</code> parameter
 
 ## Q3
 
 An engineer wants all interactions with an internal legal-triage bot to (a) speak formally, (b) refuse anything outside legal topics, and (c) survive attempted jailbreaks in later user messages. Where should these instructions be placed?
 
-- **a)** In the first `user` message so the user can see the constraints
-- **b)** In the `system` parameter, because it persists for the conversation and is harder to override
-- **c)** Repeated as a preamble in every `user` message
-- **d)** In an initial `assistant` message so Claude sees them as its own
+- **a)** In the first <code>user</code> message so the user can see the constraints
+- **b)** In the <code>system</code> parameter, because it persists for the conversation and is harder to override
+- **c)** In an initial <code>assistant</code> message so Claude sees them as its own
+- **d)** Repeated as a preamble in every <code>user</code> message
 
 ## Q4
 
 A developer's code uses these roles: `"user"`, `"agent"`, and `"system"`. The API returns a 400 error. Which change fixes it?
 
-- **a)** Rename `"system"` to `"instructions"` and keep `"agent"`
-- **b)** Rename `"agent"` to `"assistant"` and move `"system"` content into the separate `system` parameter
-- **c)** Rename `"user"` to `"human"` and `"agent"` to `"bot"`
-- **d)** Add a `"tool"` role between `"user"` and `"agent"`
+- **a)** Rename <code>"system"</code> to <code>"instructions"</code> and keep <code>"agent"</code>
+- **b)** Add a <code>"tool"</code> role between <code>"user"</code> and <code>"agent"</code>
+- **c)** Rename <code>"user"</code> to <code>"human"</code> and <code>"agent"</code> to <code>"bot"</code>
+- **d)** Rename <code>"agent"</code> to <code>"assistant"</code> and move <code>"system"</code> content into the separate <code>system</code> parameter
 
 ## Q5
 
@@ -81,8 +81,8 @@ Then calls `client.messages.create(model=..., messages=messages)`. What happens?
 
 - **a)** The API accepts it and Claude follows the persona
 - **b)** The API accepts it but Claude ignores the system message
-- **c)** The API returns an error because `system` is not a valid role
-- **d)** The system prompt works but is much weaker than using the `system=` parameter
+- **c)** The API returns an error because <code>system</code> is not a valid role
+- **d)** The system prompt works but is much weaker than using the <code>system=</code> parameter
 
 ---
 
@@ -92,19 +92,19 @@ Then calls `client.messages.create(model=..., messages=messages)`. What happens?
 
 You are designing a nightly batch job that summarises 20,000 documents. Each summary is stored to a database for later retrieval. Should you use streaming for the API calls?
 
-- **a)** Yes — streaming reduces total token cost for large batches
-- **b)** Yes — streaming avoids hitting rate limits
+- **a)** No — streaming has no benefit when no human is watching in real time
+- **b)** Yes — streaming reduces total token cost for large batches
 - **c)** Yes — streaming produces higher-quality responses in batch settings
-- **d)** No — streaming has no benefit when no human is watching in real time
+- **d)** Yes — streaming avoids hitting rate limits
 
 ## Q7
 
 Claude sometimes returns JSON wrapped in markdown fences (` ```json `), breaking your parser. You've already added "return only valid JSON" to the system prompt but the issue persists intermittently. What's the most reliable additional technique?
 
 - **a)** Retry the request until valid JSON is returned
-- **b)** Set `temperature` to 0
-- **c)** Prefill the assistant message with `"{"` to force JSON continuation
-- **d)** Switch to structured output mode with a JSON schema in system
+- **b)** Set <code>temperature</code> to 0
+- **c)** Switch to structured output mode with a JSON schema in system
+- **d)** Prefill the assistant message with <code>"{"</code> to force JSON continuation
 
 ---
 
@@ -121,10 +121,10 @@ if response.stop_reason == "tool_result":
 
 Why is it broken?
 
-- **a)** `stop_reason` attribute doesn't exist on response objects
-- **b)** `"tool_result"` is not a valid `stop_reason` — the correct value when Claude wants a tool is `"tool_use"`
-- **c)** `response.content[0]` should be `response.content.first`
-- **d)** The comparison needs `.value` on `stop_reason`
+- **a)** <code>stop_reason</code> attribute doesn't exist on response objects
+- **b)** <code>response.content[0]</code> should be <code>response.content.first</code>
+- **c)** <code>"tool_result"</code> is not a valid <code>stop_reason</code> — the correct value when Claude wants a tool is <code>"tool_use"</code>
+- **d)** The comparison needs <code>.value</code> on <code>stop_reason</code>
 
 ## Q9
 
@@ -136,10 +136,10 @@ A tool-enabled call returns `response.content` as:
 
 Your code does `tool_block = response.content[0]`. What happens?
 
-- **a)** It correctly grabs the ToolUseBlock
-- **b)** It grabs the TextBlock, then crashes when you try to access `.name` or `.input`
-- **c)** The API rejects the response for having two content blocks
-- **d)** Content blocks are automatically re-ordered so `tool_use` is first
+- **a)** The API rejects the response for having two content blocks
+- **b)** It correctly grabs the ToolUseBlock
+- **c)** Content blocks are automatically re-ordered so <code>tool_use</code> is first
+- **d)** It grabs the TextBlock, then crashes when you try to access <code>.name</code> or <code>.input</code>
 
 ---
 
@@ -149,46 +149,46 @@ Your code does `tool_block = response.content[0]`. What happens?
 
 A user chats with a Claude-powered bot for 20 turns. The developer restarts the Python process. On turn 21, the user asks: *"What was that number I asked you to remember?"* What happens?
 
-- **a)** Claude retrieves it from server-side session state
-- **b)** Claude has no memory — the `messages` list was in-memory and is now empty
-- **c)** Anthropic caches conversation history for 24 hours by API key
-- **d)** Claude asks the user to log in to restore session
+- **a)** Anthropic caches conversation history for 24 hours by API key
+- **b)** Claude retrieves it from server-side session state
+- **c)** Claude asks the user to log in to restore session
+- **d)** Claude has no memory — the <code>messages</code> list was in-memory and is now empty
 
 ## Q12
 
 A user has been chatting with a Claude-powered bot for 20 turns. The developer decides to restart the Python process. On turn 21, the user asks: *"What did I say earlier about my project deadline?"* What happens?
 
 - **a)** Claude retrieves the earlier context from Anthropic's server-side session cache
-- **b)** Claude admits it has no record of the earlier conversation
-- **c)** Claude asks the user to log back in
-- **d)** The API returns an error because the session token is stale
+- **b)** The API returns an error because the session token is stale
+- **c)** Claude admits it has no record of the earlier conversation
+- **d)** Claude asks the user to log back in
 
 ## Q13
 
 Which statement about conversation memory in the Anthropic API is accurate?
 
-- **a)** Anthropic maintains conversation state per API key for 30 minutes
-- **b)** The API is stateless; the developer must send the full transcript with every request
-- **c)** Only the last 10 exchanges are cached server-side for continuity
-- **d)** The `assistant` role stores state; the `user` role does not
+- **a)** The API is stateless; the developer must send the full transcript with every request
+- **b)** Only the last 10 exchanges are cached server-side for continuity
+- **c)** Anthropic maintains conversation state per API key for 30 minutes
+- **d)** The <code>assistant</code> role stores state; the <code>user</code> role does not
 
 ## Q14
 
 Agent A completes tasks in 5 turns on average. Agent B does the same tasks but takes 30 turns (more careful reasoning). Same model, same tools, same per-turn message lengths. Approximate cost ratio B/A per session?
 
 - **a)** ~6x (turns proportional to cost)
-- **b)** ~30x or more (input tokens accumulate — earlier turns re-sent in later ones)
-- **c)** Same cost (Anthropic caches conversation history)
+- **b)** Same cost (Anthropic caches conversation history)
+- **c)** ~30x or more (input tokens accumulate — earlier turns re-sent in later ones)
 - **d)** ~2-3x (efficiency gains scale sublinearly)
 
 ## Q15
 
 A support chatbot's cost per conversation is £0.30 at 15 turns. Assuming user and assistant message lengths remain similar throughout, what would you roughly expect a 30-turn session to cost?
 
-- **a)** £0.30 — cost is flat because conversation content is cached
+- **a)** Significantly more than £0.60 — later turns send more history than earlier turns
 - **b)** About £0.60 — twice as many turns, twice the cost
-- **c)** Significantly more than £0.60 — later turns send more history than earlier turns
-- **d)** About £0.45 — the model is more efficient with longer context
+- **c)** About £0.45 — the model is more efficient with longer context
+- **d)** £0.30 — cost is flat because conversation content is cached
 
 ## Q16
 
@@ -205,10 +205,10 @@ while True:
 
 What's the bug?
 
-- **a)** Missing a system prompt
-- **b)** Claude's response is never appended to `messages` — Claude only sees user turns in history
-- **c)** The loop should use streaming
-- **d)** `max_tokens` is undefined
+- **a)** The loop should use streaming
+- **b)** Missing a system prompt
+- **c)** Claude's response is never appended to <code>messages</code> — Claude only sees user turns in history
+- **d)** <code>max_tokens</code> is undefined
 
 ## Q17
 
@@ -233,8 +233,8 @@ messages.append({"role": "assistant", "content": response.content[0].text})
 response = client.messages.create(messages=[{"role": "user", "content": user_input}])
 ```
 
-- **a)** Pattern A
-- **b)** Pattern B
+- **a)** Pattern B
+- **b)** Pattern A
 - **c)** Pattern C
 - **d)** All three achieve full memory
 
@@ -245,7 +245,7 @@ If Claude correctly appends both user and assistant messages every turn, how man
 - **a)** 10
 - **b)** 20
 - **c)** 11 (10 user + 1 assistant summary)
-- **d)** Depends on the `max_tokens` setting
+- **d)** Depends on the <code>max_tokens</code> setting
 
 ## Q19
 
@@ -266,62 +266,62 @@ You've built a tool-enabled agent. A user asks a question Claude can answer usin
 
 - **a)** The first call authenticates the tool; the second executes it
 - **b)** Claude checks its answer twice for accuracy
-- **c)** The first returns Claude's request to use a tool; after your code runs the tool, the second sends the result back for Claude to compose the final answer
-- **d)** The first is a dry-run to estimate cost; the second is the real call
+- **c)** The first is a dry-run to estimate cost; the second is the real call
+- **d)** The first returns Claude's request to use a tool; after your code runs the tool, the second sends the result back for Claude to compose the final answer
 
 ## Q21
 
 Claude decides to use a tool. What does the response contain?
 
-- **a)** The executed result of the tool
-- **b)** A `tool_use` block describing which tool to call and with what inputs, along with a unique ID
+- **a)** A <code>tool_use</code> block describing which tool to call and with what inputs, along with a unique ID
+- **b)** The executed result of the tool
 - **c)** A text answer that includes the tool name in brackets
-- **d)** A stop_reason of `tool_result`
+- **d)** A stop_reason of <code>tool_result</code>
 
 ## Q22
 
 You've defined a `get_stock_price` tool. A user asks: *"What's Apple's stock price?"* You inspect `response.content` from the first API call. Which best describes what's inside?
 
-- **a)** A string: `"[TOOL: get_stock_price(ticker='AAPL')]"`
-- **b)** A list containing a `ToolUseBlock` object with `name='get_stock_price'`, `input={'ticker': 'AAPL'}`, and a unique `id`
+- **a)** An empty list — the tool was executed silently
+- **b)** A string: <code>"[TOOL: get_stock_price(ticker='AAPL')]"</code>
 - **c)** A string with Apple's stock price already looked up by Claude
-- **d)** An empty list — the tool was executed silently
+- **d)** A list containing a <code>ToolUseBlock</code> object with <code>name='get_stock_price'</code>, <code>input={'ticker': 'AAPL'}</code>, and a unique <code>id</code>
 
 ## Q23
 
 Your Python code has run a tool and now needs to send the result back to Claude. What is the correct `role` for the message containing the `tool_result` block?
 
-- **a)** `assistant`
-- **b)** `tool`
-- **c)** `user`
-- **d)** `system`
+- **a)** <code>assistant</code>
+- **b)** <code>tool</code>
+- **c)** <code>user</code>
+- **d)** <code>system</code>
 
 ## Q24
 
 Claude's response contains three `tool_use` blocks (parallel tool calls). How should you structure the response back to the API?
 
-- **a)** Three separate messages, each with one `tool_result` and its matching id
-- **b)** One `user` message whose content is a list of three `tool_result` blocks with matching ids
-- **c)** One `assistant` message containing all three results concatenated as text
+- **a)** Three separate messages, each with one <code>tool_result</code> and its matching id
+- **b)** One <code>user</code> message whose content is a list of three <code>tool_result</code> blocks with matching ids
+- **c)** One <code>assistant</code> message containing all three results concatenated as text
 - **d)** Send only the first result; Claude will re-request the others
 
 ## Q25
 
 Claude's response contains two tool_use blocks with IDs `"toolu_abc"` and `"toolu_xyz"`. What's true about your response back to the API?
 
-- **a)** Send one `tool_result` message, then wait for Claude to ask for the next
-- **b)** Send both `tool_result` blocks in a single `user` message, each with matching `tool_use_id`
-- **c)** `tool_use_id` is optional when there's only one recent tool call
-- **d)** Order and IDs don't matter — the API pairs them automatically
+- **a)** Send both <code>tool_result</code> blocks in a single <code>user</code> message, each with matching <code>tool_use_id</code>
+- **b)** Order and IDs don't matter — the API pairs them automatically
+- **c)** <code>tool_use_id</code> is optional when there's only one recent tool call
+- **d)** Send one <code>tool_result</code> message, then wait for Claude to ask for the next
 
 ## Q26
 
 You have five tools available: `get_weather`, `calculator`, `stock_lookup`, `translate_text`, and `word_count`. A user asks: *"How many words are in the French translation of 'Hello world'?"* How does Claude decide which tool(s) to use, and in what order?
 
-- **a)** Claude reads the tool descriptions, reasons about the request, and may call multiple tools sequentially or in parallel as needed
-- **b)** Claude runs all five tools and returns the best result
+- **a)** Claude runs all five tools and returns the best result
+- **b)** Claude asks the user which tool to use
 - **c)** Claude uses the tool with the alphabetically first name that matches keywords in the question
-- **d)** Claude asks the user which tool to use
+- **d)** Claude reads the tool descriptions, reasons about the request, and may call multiple tools sequentially or in parallel as needed
 
 ---
 
@@ -332,9 +332,9 @@ You have five tools available: `get_weather`, `calculator`, `stock_lookup`, `tra
 A developer's tool function has no try/except wrapping. During a live user session, the tool raises an unhandled `requests.exceptions.Timeout`. What does the user see?
 
 - **a)** Claude apologises and offers alternative sources of information
-- **b)** Claude retries the tool automatically
-- **c)** Claude answers from its own training data instead
-- **d)** A Python traceback; the script terminates before the second API call is made
+- **b)** A Python traceback; the script terminates before the second API call is made
+- **c)** Claude retries the tool automatically
+- **d)** Claude answers from its own training data instead
 
 ## Q29
 
@@ -349,10 +349,10 @@ Your `get_stock_price` tool doesn't wrap its API call in try/except. During a li
 
 Your tool returns the string `"Error: database connection timed out after 30s"` when the DB is unreachable. What is Claude most likely to do with this in the final response?
 
-- **a)** Include the technical error verbatim in the user-facing response
-- **b)** Ignore the error and fabricate an answer from training data
-- **c)** Read the error, understand it as a failure, and translate it into user-appropriate language (apology, alternatives)
-- **d)** Retry the tool up to three times before giving up
+- **a)** Read the error, understand it as a failure, and translate it into user-appropriate language (apology, alternatives)
+- **b)** Retry the tool up to three times before giving up
+- **c)** Ignore the error and fabricate an answer from training data
+- **d)** Include the technical error verbatim in the user-facing response
 
 ## Q31
 
@@ -365,18 +365,18 @@ A tool function returns `len(some_string)` (an integer). The developer puts it d
 What happens?
 
 - **a)** It works fine — the API accepts any content type
-- **b)** The API returns a 400 error — tool_result content must be a string
-- **c)** Claude interprets the integer as a token count
+- **b)** Claude interprets the integer as a token count
+- **c)** The API returns a 400 error — tool_result content must be a string
 - **d)** The response is silently truncated
 
 ## Q32
 
 You're designing an agent for graceful degradation when external tools fail. Which design pattern is essential?
 
-- **a)** Adding a "try harder" instruction to the system prompt
-- **b)** Wrapping tool functions in try/except that convert exceptions into informative error strings returned to Claude
-- **c)** Using streaming so partial responses are shown even on failure
-- **d)** Setting `max_tokens` higher so Claude has room to explain errors
+- **a)** Wrapping tool functions in try/except that convert exceptions into informative error strings returned to Claude
+- **b)** Adding a "try harder" instruction to the system prompt
+- **c)** Setting <code>max_tokens</code> higher so Claude has room to explain errors
+- **d)** Using streaming so partial responses are shown even on failure
 
 ---
 
@@ -387,9 +387,9 @@ You're designing an agent for graceful degradation when external tools fail. Whi
 Which best describes an **MCP client**?
 
 - **a)** A program that provides tools (like GitHub or Postgres access) to be consumed by AI apps
-- **b)** An AI application (Claude Desktop, Cursor, Claude Code) that consumes tools from MCP servers
+- **b)** A remote server hosted by Anthropic that stores connector configurations
 - **c)** The underlying JSON-RPC protocol that transports MCP messages
-- **d)** A remote server hosted by Anthropic that stores connector configurations
+- **d)** An AI application (Claude Desktop, Cursor, Claude Code) that consumes tools from MCP servers
 
 ## Q34 (~)
 
@@ -404,9 +404,9 @@ Which best describes an **MCP server**?
 
 An engineer says: *"I can just write tools inline in my Python script like weeks 3-4. Why do I need MCP?"* What's the strongest argument for MCP?
 
-- **a)** MCP tools are faster than inline tools
+- **a)** MCP separates tool definitions from AI applications, so one tool implementation (e.g., a GitHub server) can be reused across many AI apps without code duplication
 - **b)** MCP tools bypass the tool_use loop, reducing API calls
-- **c)** MCP separates tool definitions from AI applications, so one tool implementation (e.g., a GitHub server) can be reused across many AI apps without code duplication
+- **c)** MCP tools are faster than inline tools
 - **d)** MCP tools work without Claude having to reason about them
 
 ## Q36
@@ -454,27 +454,27 @@ Between stdio and HTTP transports for MCP servers, when would you use each?
 You've written a Python function and put `@mcp.tool()` above it in a FastMCP server. What does that decorator do?
 
 - **a)** It runs the function immediately when the server starts
-- **b)** It exposes the function as an MCP tool, auto-generating the input schema from the function's type hints and using the docstring as the tool description
+- **b)** It caches the function's return value
 - **c)** It converts the function to run asynchronously
-- **d)** It caches the function's return value
+- **d)** It exposes the function as an MCP tool, auto-generating the input schema from the function's type hints and using the docstring as the tool description
 
 ## Q41 (~)
 
 You wrote a docstring on your MCP tool function: *"Get the current English Premier League table..."*. What role does that docstring play when a client like Claude Desktop uses this server?
 
-- **a)** Just for other developers reading your code — Claude doesn't see it
-- **b)** It becomes the tool's description that Claude reads to decide when to use the tool
-- **c)** It's shown to the end user as help text
-- **d)** It's logged for debugging purposes
+- **a)** It's logged for debugging purposes
+- **b)** Just for other developers reading your code — Claude doesn't see it
+- **c)** It becomes the tool's description that Claude reads to decide when to use the tool
+- **d)** It's shown to the end user as help text
 
 ## Q42 (~)
 
 Your MCP server runs and works in the MCP Inspector via `mcp dev`. What needs to happen for Claude Desktop to be able to use this server in a real chat?
 
 - **a)** Nothing — Claude Desktop auto-discovers running MCP servers
-- **b)** You need to add the server to Claude Desktop's config file (or install it as an extension) and restart Claude Desktop
-- **c)** You need to publish the server to a public registry first
-- **d)** You need to get Anthropic to approve the server
+- **b)** You need to publish the server to a public registry first
+- **c)** You need to get Anthropic to approve the server
+- **d)** You need to add the server to Claude Desktop's config file (or install it as an extension) and restart Claude Desktop
 
 ---
 
@@ -484,19 +484,19 @@ Your MCP server runs and works in the MCP Inspector via `mcp dev`. What needs to
 
 In one sentence, what does `str()` do in the context of preparing a value to return from a tool function?
 
-- **a)** Removes all non-alphabetic characters
-- **b)** Converts any Python value (int, float, dict, list) into its string representation, which is the format `tool_result` content requires
+- **a)** Converts any Python value (int, float, dict, list) into its string representation, which is the format <code>tool_result</code> content requires
+- **b)** Adds quotes around a string
 - **c)** Truncates a value to 100 characters
-- **d)** Adds quotes around a string
+- **d)** Removes all non-alphabetic characters
 
 ## Q46 (~)
 
 Why is fixing a data-type conversion inside the tool function itself (rather than at the send-back point) generally safer?
 
 - **a)** Functions are faster than external conversions
-- **b)** If the function is called from multiple places, one fix inside the function protects all call sites; if you fix it externally, you have to remember to do it every time
-- **c)** External conversions cause the API to reject the request
-- **d)** Only functions can convert types in Python
+- **b)** Only functions can convert types in Python
+- **c)** If the function is called from multiple places, one fix inside the function protects all call sites; if you fix it externally, you have to remember to do it every time
+- **d)** External conversions cause the API to reject the request
 
 ---
 
@@ -506,10 +506,10 @@ Why is fixing a data-type conversion inside the tool function itself (rather tha
 
 You want Claude to explain its reasoning to the user *before* calling a tool — something like *"Let me check the weather for you..."* — and then still call the tool. What actually happens in practice?
 
-- **a)** Impossible — Claude can only produce a `tool_use` block in a tool-use response, no text
-- **b)** Claude often produces both a TextBlock (explaining intent) AND a ToolUseBlock in the same response — both appear in `response.content`
+- **a)** Impossible — Claude can only produce a <code>tool_use</code> block in a tool-use response, no text
+- **b)** Claude often produces both a TextBlock (explaining intent) AND a ToolUseBlock in the same response — both appear in <code>response.content</code>
 - **c)** You have to make two separate API calls: one for the text, one for the tool call
-- **d)** The `tool_use` block must always be the first content block, before any text
+- **d)** The <code>tool_use</code> block must always be the first content block, before any text
 
 ---
 
@@ -521,7 +521,7 @@ In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decid
 
 - **a)** Claude can only call one tool per session — you'd need to restart
 - **b)** You must batch all tool calls upfront — Claude cannot make sequential decisions
-- **c)** The agent loop must continue calling the API until `stop_reason` is `end_turn`. Each new `tool_use` response triggers another tool run + reply cycle
+- **c)** The agent loop must continue calling the API until <code>stop_reason</code> is <code>end_turn</code>. Each new <code>tool_use</code> response triggers another tool run + reply cycle
 - **d)** Claude decides internally and returns all tool results in one final response
 
 ---
@@ -532,9 +532,9 @@ In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decid
 
 You've built an MCP server that wraps a slow external API (30-second response time). A user asks Claude a question that would call this tool. What's a legitimate concern?
 
-- **a)** Claude will time out and lose the conversation
-- **b)** The tool call will exceed reasonable user-facing latency — consider async patterns, caching, or progress reporting via streaming
-- **c)** MCP servers can't call external APIs at all
+- **a)** The tool call will exceed reasonable user-facing latency — consider async patterns, caching, or progress reporting via streaming
+- **b)** MCP servers can't call external APIs at all
+- **c)** Claude will time out and lose the conversation
 - **d)** The tool will auto-fail after 10 seconds
 
 ## Q44
@@ -542,9 +542,9 @@ You've built an MCP server that wraps a slow external API (30-second response ti
 You want to write an MCP server that exposes a *read-only* view of your team's PostgreSQL database. What's the safest design?
 
 - **a)** Give the MCP server a superuser database credential so any query works
-- **b)** Use a dedicated read-only database role with SELECT-only permissions, so the AI can query but never modify data
+- **b)** Trust the AI to be careful with UPDATE and DELETE statements
 - **c)** Add "please don't modify data" to the system prompt and hope for the best
-- **d)** Trust the AI to be careful with UPDATE and DELETE statements
+- **d)** Use a dedicated read-only database role with SELECT-only permissions, so the AI can query but never modify data
 
 ---
 
@@ -554,19 +554,19 @@ You want to write an MCP server that exposes a *read-only* view of your team's P
 
 Prompt caching in the Anthropic API — what's the primary benefit?
 
-- **a)** It makes model responses faster to generate
-- **b)** It reduces cost and latency by caching parts of the input prompt server-side, so they don't need to be re-processed on subsequent calls
-- **c)** It stores Claude's responses server-side for faster retrieval next time
-- **d)** It lets Claude remember previous conversations without you re-sending them
+- **a)** It reduces cost and latency by caching parts of the input prompt server-side, so they don't need to be re-processed on subsequent calls
+- **b)** It makes model responses faster to generate
+- **c)** It lets Claude remember previous conversations without you re-sending them
+- **d)** It stores Claude's responses server-side for faster retrieval next time
 
 ## Q48
 
 Your agent sends a 20,000-token system prompt (large tool definitions + reference docs) plus a small user query every turn. You enable prompt caching on the large prefix. What effect is likely?
 
 - **a)** The user query gets faster responses because prompts are shorter
-- **b)** The 20,000-token prefix is cached after first use; subsequent calls only re-process the small user query, dramatically lowering cost per turn
+- **b)** The context window effectively doubles in size
 - **c)** The model produces higher-quality answers
-- **d)** The context window effectively doubles in size
+- **d)** The 20,000-token prefix is cached after first use; subsequent calls only re-process the small user query, dramatically lowering cost per turn
 
 ---
 
@@ -576,28 +576,28 @@ Your agent sends a 20,000-token system prompt (large tool definitions + referenc
 
 What is Claude Code?
 
-- **a)** A specific model (like Sonnet or Haiku) optimised for code generation
-- **b)** A command-line / IDE agent tool from Anthropic that lets developers use Claude as an agent for real coding tasks (edit files, run commands, use MCP tools) in their own terminal
-- **c)** A subscription tier on anthropic.com
+- **a)** A subscription tier on anthropic.com
+- **b)** A specific model (like Sonnet or Haiku) optimised for code generation
+- **c)** A command-line / IDE agent tool from Anthropic that lets developers use Claude as an agent for real coding tasks (edit files, run commands, use MCP tools) in their own terminal
 - **d)** A dataset used to train Claude on code
 
 ## Q50
 
 Claude Code needs to work with your codebase. How does it access your files and tools?
 
-- **a)** It uploads your entire codebase to Anthropic servers for analysis
-- **b)** It runs locally on your machine — executes commands you approve, reads files you point it at, and sends only relevant context to the Claude API
+- **a)** It uses a proprietary compiler to analyse code offline
+- **b)** It uploads your entire codebase to Anthropic servers for analysis
 - **c)** You must manually paste code snippets one at a time into a chat window
-- **d)** It uses a proprietary compiler to analyse code offline
+- **d)** It runs locally on your machine — executes commands you approve, reads files you point it at, and sends only relevant context to the Claude API
 
 ## Q51
 
 How do Claude Code and MCP relate?
 
-- **a)** Claude Code is an MCP server that other AI apps can call
-- **b)** Claude Code is an MCP client — you can configure MCP servers (GitHub, filesystem, Postgres, etc.) in its config and Claude Code will use them as tools
-- **c)** Claude Code replaces MCP entirely — you don't need MCP if you have Claude Code
-- **d)** MCP only works with Claude Desktop, not Claude Code
+- **a)** Claude Code is an MCP client — you can configure MCP servers (GitHub, filesystem, Postgres, etc.) in its config and Claude Code will use them as tools
+- **b)** Claude Code replaces MCP entirely — you don't need MCP if you have Claude Code
+- **c)** MCP only works with Claude Desktop, not Claude Code
+- **d)** Claude Code is an MCP server that other AI apps can call
 
 ## Q52
 
@@ -605,8 +605,8 @@ You're using Claude Code to refactor a project. Claude proposes running `rm -rf 
 
 - **a)** The command runs immediately — Claude Code trusts its own suggestions
 - **b)** Claude Code shows you the command and waits for your explicit approval before executing it
-- **c)** Claude Code runs it but logs it for later review
-- **d)** Claude Code refuses to run any file-modifying commands at all
+- **c)** Claude Code refuses to run any file-modifying commands at all
+- **d)** Claude Code runs it but logs it for later review
 
 ---
 
@@ -617,56 +617,56 @@ You're using Claude Code to refactor a project. Claude proposes running `rm -rf 
 ## Section 1
 
 - **Q1: b** — System is a parameter, not a role. Only `user` and `assistant` are valid role values.
-- **Q2: b** — `system=` parameter persists for the conversation and is more resistant to override attempts than putting rules in user messages.
+- **Q2: c** — `system=` parameter persists for the conversation and is more resistant to override attempts than putting rules in user messages.
 - **Q3: b** — Same as Q2 — system parameter is architecturally distinct and weighted differently by the model. More jailbreak-resistant.
-- **Q4: b** — Two fixes needed: `"agent"` isn't valid (should be `"assistant"`); `"system"` isn't a role (goes in the separate parameter).
+- **Q4: d** — Two fixes needed: `"agent"` isn't valid (should be `"assistant"`); `"system"` isn't a role (goes in the separate parameter).
 - **Q5: c** — API rejects with 400 error. Only `user` and `assistant` roles exist.
 
 ## Section 2
 
-- **Q6: d** — Streaming's only benefit is perceived latency for a human. No human = no benefit. Same total time, tokens, cost.
-- **Q7: c** — Prefilling with `{` forces Claude's response to continue from that character. Cannot add "Here's the JSON:" preamble because the response literally starts with `{`.
+- **Q6: a** — Streaming's only benefit is perceived latency for a human. No human = no benefit. Same total time, tokens, cost.
+- **Q7: d** — Prefilling with `{` forces Claude's response to continue from that character. Cannot add "Here's the JSON:" preamble because the response literally starts with `{`.
 
 ## Section 3
 
-- **Q8: b** — `"tool_result"` is never a valid `stop_reason` value. Real value is `"tool_use"` when Claude wants a tool. Without this fix, the if-block never runs.
-- **Q9: b** — `response.content` is a list. Position 0 is whatever happens to be first — often a TextBlock, not the ToolUseBlock. Filter by `.type` instead.
+- **Q8: c** — `"tool_result"` is never a valid `stop_reason` value. Real value is `"tool_use"` when Claude wants a tool. Without this fix, the if-block never runs.
+- **Q9: d** — `response.content` is a list. Position 0 is whatever happens to be first — often a TextBlock, not the ToolUseBlock. Filter by `.type` instead.
 
 ## Section 4
 
-- **Q11: b** — API is stateless. Restart = fresh `messages` list = no memory.
-- **Q12: b** — Same as Q10 — no server-side session cache, no "log in to restore."
-- **Q13: b** — Stateless API. Full transcript must be re-sent every call.
-- **Q14: b** — Roughly quadratic scaling. 5 turns = sum of 1+2+3+4+5 = 15 turn-worths of input. 30 turns = 30*31/2 = 465. Ratio ≈ 31x, not 6x.
-- **Q15: c** — Same principle as Q13 — not linear because later turns send more history.
-- **Q16: b** — Missing assistant append. Claude sees only user side of conversation on each new call.
-- **Q17: b** — Pattern B correctly appends both user AND assistant to `messages`.
+- **Q11: d** — API is stateless. Restart = fresh `messages` list = no memory.
+- **Q12: c** — Same as Q10 — no server-side session cache, no "log in to restore."
+- **Q13: a** — Stateless API. Full transcript must be re-sent every call.
+- **Q14: c** — Roughly quadratic scaling. 5 turns = sum of 1+2+3+4+5 = 15 turn-worths of input. 30 turns = 30*31/2 = 465. Ratio ≈ 31x, not 6x.
+- **Q15: a** — Same principle as Q13 — not linear because later turns send more history.
+- **Q16: c** — Missing assistant append. Claude sees only user side of conversation on each new call.
+- **Q17: a** — Pattern B correctly appends both user AND assistant to `messages`.
 - **Q18: b** — 10 user + 10 assistant = 20 entries.
 - **Q19: c** — Claude has no memory of its own prior responses, so each turn feels like the first. But it doesn't crash — the API accepts user-only history.
 
 ## Section 5
 
-- **Q20: c** — Claude cannot execute code. First call = tool request. Your code runs the tool. Second call = result back to Claude for the final natural-language answer.
-- **Q21: b** — Response contains a `tool_use` block with `name`, `input`, and `id`. Claude never runs the tool — it requests one.
-- **Q22: b** — Same as Q20 — `ToolUseBlock` with name, input dict, and id.
+- **Q20: d** — Claude cannot execute code. First call = tool request. Your code runs the tool. Second call = result back to Claude for the final natural-language answer.
+- **Q21: a** — Response contains a `tool_use` block with `name`, `input`, and `id`. Claude never runs the tool — it requests one.
+- **Q22: d** — Same as Q20 — `ToolUseBlock` with name, input dict, and id.
 - **Q23: c** — Role is `user`. Roles are `user` and `assistant` only; anything sent TO Claude is `user`, regardless of content type.
 - **Q24: b** — All tool_results in one user message, as a list of blocks, each with its matching `tool_use_id`.
-- **Q25: b** — Same as Q23 — one message, list of results, IDs matter.
-- **Q26: a** — Claude reads tool descriptions, reasons about the request, plans multi-step tool use itself. This is the beginning of agent behaviour.
+- **Q25: a** — Same as Q23 — one message, list of results, IDs matter.
+- **Q26: d** — Claude reads tool descriptions, reasons about the request, plans multi-step tool use itself. This is the beginning of agent behaviour.
 
 ## Section 6
 
-- **Q28: d** — Without try/except, Python raises the exception and the script dies. The second API call never happens, so Claude never gets a chance to respond.
+- **Q28: b** — Without try/except, Python raises the exception and the script dies. The second API call never happens, so Claude never gets a chance to respond.
 - **Q29: c** — Same as Q26. No API call = no Claude response. The user sees whatever the client displays for a hung tool call; the developer sees the traceback.
-- **Q30: c** — Claude reads `tool_result` content and reasons about it. A human-readable error string is interpreted as failure and translated into user-appropriate language.
-- **Q31: b** — `tool_result` content must be a string. Integer content triggers a 400 error.
-- **Q32: b** — try/except that converts exceptions into strings is the essential pattern. Without it, crashes kill the script before Claude can respond.
+- **Q30: a** — Claude reads `tool_result` content and reasons about it. A human-readable error string is interpreted as failure and translated into user-appropriate language.
+- **Q31: c** — `tool_result` content must be a string. Integer content triggers a 400 error.
+- **Q32: a** — try/except that converts exceptions into strings is the essential pattern. Without it, crashes kill the script before Claude can respond.
 
 ## Section 7
 
-- **Q33: b** — Client = the AI app that consumes tools (Claude Desktop, Cursor, etc.).
+- **Q33: d** — Client = the AI app that consumes tools (Claude Desktop, Cursor, etc.).
 - **Q34: b** — Server = the program that provides tools/resources/prompts. Kitchen (serves) vs diner (consumes).
-- **Q35: c** — MCP's real value is reusability across AI apps and separation of tool implementation from consumption.
+- **Q35: a** — MCP's real value is reusability across AI apps and separation of tool implementation from consumption.
 - **Q36: d** — Both B and C work. Training didn't include your personal files. Either paste the content or have runtime file access via MCP.
 - **Q37: c** — MCP servers execute code on your machine with your permissions. Treat unknown sources as untrusted.
 - **Q38: b** — Multi-vendor governance means MCP is an industry standard, not an Anthropic thing. Skills transfer across platforms.
@@ -674,14 +674,14 @@ You're using Claude Code to refactor a project. Claude proposes running `rm -rf 
 
 ## Section 8
 
-- **Q40: b** — `@mcp.tool()` exposes the function as an MCP tool. FastMCP inspects the signature (type hints) to generate the input schema and uses the docstring as the tool description.
-- **Q41: b** — The docstring is what Claude reads to decide when to invoke the tool. Clear docstrings = better tool selection.
-- **Q42: b** — Register the server in Claude Desktop's config (`claude_desktop_config.json`) or install as an extension, then restart Claude Desktop.
+- **Q40: d** — `@mcp.tool()` exposes the function as an MCP tool. FastMCP inspects the signature (type hints) to generate the input schema and uses the docstring as the tool description.
+- **Q41: c** — The docstring is what Claude reads to decide when to invoke the tool. Clear docstrings = better tool selection.
+- **Q42: d** — Register the server in Claude Desktop's config (`claude_desktop_config.json`) or install as an extension, then restart Claude Desktop.
 
 ## Section 9
 
-- **Q45: b** — `str()` converts values to their string representation. Needed because `tool_result` content must be a string.
-- **Q46: b** — Fix in the function = one fix protects all call sites. Fix at send-back = must remember every time, easy to miss.
+- **Q45: a** — `str()` converts values to their string representation. Needed because `tool_result` content must be a string.
+- **Q46: c** — Fix in the function = one fix protects all call sites. Fix at send-back = must remember every time, easy to miss.
 
 ## Section 3 (additional)
 
@@ -693,19 +693,19 @@ You're using Claude Code to refactor a project. Claude proposes running `rm -rf 
 
 ## Section 8 (additional)
 
-- **Q43: b** — MCP servers can call any API, but tool response time = user-perceived latency. Slow tools need caching, async patterns, or progress reporting.
-- **Q44: b** — Principle of least privilege. Enforce read-only at the database layer (role permissions), not via prompts or model discretion. Core MCP security pattern.
+- **Q43: a** — MCP servers can call any API, but tool response time = user-perceived latency. Slow tools need caching, async patterns, or progress reporting.
+- **Q44: d** — Principle of least privilege. Enforce read-only at the database layer (role permissions), not via prompts or model discretion. Core MCP security pattern.
 
 ## Section 10: Prompt Caching
 
-- **Q47: b** — Caching stable INPUT prefixes (system prompts, tool definitions, docs) so they aren't re-processed per call. Cache reads are much cheaper than fresh input. Does NOT give Claude memory.
-- **Q48: b** — Cache the expensive prefix once. Subsequent calls charge cheaper cache-read rates for the prefix, full rates only on the small changing user query. Cost savings often 90%+ on long-context agents.
+- **Q47: a** — Caching stable INPUT prefixes (system prompts, tool definitions, docs) so they aren't re-processed per call. Cache reads are much cheaper than fresh input. Does NOT give Claude memory.
+- **Q48: d** — Cache the expensive prefix once. Subsequent calls charge cheaper cache-read rates for the prefix, full rates only on the small changing user query. Cost savings often 90%+ on long-context agents.
 
 ## Section 11: Claude Code
 
-- **Q49: b** — Claude Code is Anthropic's agentic coding tool. Runs locally, has filesystem/shell access, uses MCP servers. NOT a model — a client/agent built on top of Claude.
-- **Q50: b** — Runs locally as an agent. Files stay on your machine. Only relevant context sent to the API per call. No wholesale codebase upload — core privacy property.
-- **Q51: b** — Claude Code is MCP-compatible. Any MCP server (Filesystem, GitHub, custom) becomes available as tools inside Claude Code. This is how you extend its capabilities.
+- **Q49: c** — Claude Code is Anthropic's agentic coding tool. Runs locally, has filesystem/shell access, uses MCP servers. NOT a model — a client/agent built on top of Claude.
+- **Q50: d** — Runs locally as an agent. Files stay on your machine. Only relevant context sent to the API per call. No wholesale codebase upload — core privacy property.
+- **Q51: a** — Claude Code is MCP-compatible. Any MCP server (Filesystem, GitHub, custom) becomes available as tools inside Claude Code. This is how you extend its capabilities.
 - **Q52: b** — Human-in-the-loop for destructive commands is core to Claude Code's design. You approve. The agent doesn't unilaterally execute. Critical safety property.
 
 ---
