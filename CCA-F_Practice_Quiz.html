@@ -377,7 +377,7 @@ const questions = [
 
   // ============ Section 4: Context Management ============
   {
-    section: 4, sectionName: "Context Management", num: 10,
+    section: 4, sectionName: "Context Management", num: 11,
     text: `A user chats with a Claude-powered bot for 20 turns. The developer restarts the Python process. On turn 21, the user asks: "What was that number I asked you to remember?" What happens?`,
     options: {
       a: "Claude retrieves it from server-side session state",
@@ -389,7 +389,7 @@ const questions = [
     explanation: "API is stateless. Restart = fresh <code>messages</code> list = no memory."
   },
   {
-    section: 4, sectionName: "Context Management", num: 11,
+    section: 4, sectionName: "Context Management", num: 12,
     text: `A user has been chatting with a Claude-powered bot for 20 turns. The developer decides to restart the Python process. On turn 21, the user asks: "What did I say earlier about my project deadline?" What happens?`,
     options: {
       a: "Claude retrieves the earlier context from Anthropic's server-side session cache",
@@ -401,7 +401,7 @@ const questions = [
     explanation: "Same as Q10 — no server-side session cache, no \"log in to restore.\""
   },
   {
-    section: 4, sectionName: "Context Management", num: 12,
+    section: 4, sectionName: "Context Management", num: 13,
     text: `Which statement about conversation memory in the Anthropic API is accurate?`,
     options: {
       a: "Anthropic maintains conversation state per API key for 30 minutes",
@@ -413,7 +413,7 @@ const questions = [
     explanation: "Stateless API. Full transcript must be re-sent every call."
   },
   {
-    section: 4, sectionName: "Context Management", num: 13,
+    section: 4, sectionName: "Context Management", num: 14,
     text: `Agent A completes tasks in 5 turns on average. Agent B does the same tasks but takes 30 turns (more careful reasoning). Same model, same tools, same per-turn message lengths. Approximate cost ratio B/A per session?`,
     options: {
       a: "~6x (turns proportional to cost)",
@@ -425,7 +425,7 @@ const questions = [
     explanation: "Roughly quadratic scaling. 5 turns = sum of 1+2+3+4+5 = 15 turn-worths of input. 30 turns = 30*31/2 = 465. Ratio ≈ 31x, not 6x."
   },
   {
-    section: 4, sectionName: "Context Management", num: 14,
+    section: 4, sectionName: "Context Management", num: 15,
     text: `A support chatbot's cost per conversation is £0.30 at 15 turns. Assuming user and assistant message lengths remain similar throughout, what would you roughly expect a 30-turn session to cost?`,
     options: {
       a: "£0.30 — cost is flat because conversation content is cached",
@@ -437,7 +437,7 @@ const questions = [
     explanation: "Same principle as Q13 — not linear because later turns send more history."
   },
   {
-    section: 4, sectionName: "Context Management", num: 15,
+    section: 4, sectionName: "Context Management", num: 16,
     text: `A developer's chatbot works fine in isolated tests but "forgets things" in longer conversations. Their code:<pre>messages = []
 while True:
     user_input = input()
@@ -454,7 +454,7 @@ while True:
     explanation: "Missing assistant append. Claude sees only user side of conversation on each new call."
   },
   {
-    section: 4, sectionName: "Context Management", num: 16,
+    section: 4, sectionName: "Context Management", num: 17,
     text: `A developer wants Claude to have full conversation memory. Which of these code patterns achieves that?<br><br><strong>Pattern A:</strong><pre>messages.append({"role": "user", "content": user_input})
 response = client.messages.create(messages=messages)
 # nothing else</pre><strong>Pattern B:</strong><pre>messages.append({"role": "user", "content": user_input})
@@ -470,7 +470,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Pattern B correctly appends both user AND assistant to <code>messages</code>."
   },
   {
-    section: 4, sectionName: "Context Management", num: 17,
+    section: 4, sectionName: "Context Management", num: 18,
     text: `If Claude correctly appends both user and assistant messages every turn, how many entries are in the <code>messages</code> list at the end of a 10-turn conversation?`,
     options: {
       a: "10",
@@ -482,7 +482,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "10 user + 10 assistant = 20 entries."
   },
   {
-    section: 4, sectionName: "Context Management", num: 18,
+    section: 4, sectionName: "Context Management", num: 19,
     text: `You accidentally delete the line that appends the assistant reply back to <code>messages</code>. The script still runs without errors. What behaviour changes?`,
     options: {
       a: "Nothing — Claude tracks its own responses server-side",
@@ -496,7 +496,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Section 5: Tool Use — Loop ============
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 19,
+    section: 5, sectionName: "Tool Use — Loop", num: 20,
     text: `You've built a tool-enabled agent. A user asks a question Claude can answer using an available tool. Why does the interaction require two API calls rather than one?`,
     options: {
       a: "The first call authenticates the tool; the second executes it",
@@ -508,7 +508,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Claude cannot execute code. First call = tool request. Your code runs the tool. Second call = result back to Claude for the final natural-language answer."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 20,
+    section: 5, sectionName: "Tool Use — Loop", num: 21,
     text: `Claude decides to use a tool. What does the response contain?`,
     options: {
       a: "The executed result of the tool",
@@ -520,7 +520,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Response contains a <code>tool_use</code> block with <code>name</code>, <code>input</code>, and <code>id</code>. Claude never runs the tool — it requests one."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 21,
+    section: 5, sectionName: "Tool Use — Loop", num: 22,
     text: `You've defined a <code>get_stock_price</code> tool. A user asks: "What's Apple's stock price?" You inspect <code>response.content</code> from the first API call. Which best describes what's inside?`,
     options: {
       a: "A string: <code>\"[TOOL: get_stock_price(ticker='AAPL')]\"</code>",
@@ -532,7 +532,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Same as Q20 — <code>ToolUseBlock</code> with name, input dict, and id."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 22,
+    section: 5, sectionName: "Tool Use — Loop", num: 23,
     text: `Your Python code has run a tool and now needs to send the result back to Claude. What is the correct <code>role</code> for the message containing the <code>tool_result</code> block?`,
     options: {
       a: "<code>assistant</code>",
@@ -544,7 +544,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Role is <code>user</code>. Roles are <code>user</code> and <code>assistant</code> only; anything sent TO Claude is <code>user</code>, regardless of content type."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 23,
+    section: 5, sectionName: "Tool Use — Loop", num: 24,
     text: `Claude's response contains three <code>tool_use</code> blocks (parallel tool calls). How should you structure the response back to the API?`,
     options: {
       a: "Three separate messages, each with one <code>tool_result</code> and its matching id",
@@ -556,7 +556,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "All tool_results in one user message, as a list of blocks, each with its matching <code>tool_use_id</code>."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 24,
+    section: 5, sectionName: "Tool Use — Loop", num: 25,
     text: `Claude's response contains two tool_use blocks with IDs <code>"toolu_abc"</code> and <code>"toolu_xyz"</code>. What's true about your response back to the API?`,
     options: {
       a: "Send one <code>tool_result</code> message, then wait for Claude to ask for the next",
@@ -568,7 +568,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Same as Q23 — one message, list of results, IDs matter."
   },
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 25,
+    section: 5, sectionName: "Tool Use — Loop", num: 26,
     text: `You have five tools available: <code>get_weather</code>, <code>calculator</code>, <code>stock_lookup</code>, <code>translate_text</code>, and <code>word_count</code>. A user asks: "How many words are in the French translation of 'Hello world'?" How does Claude decide which tool(s) to use, and in what order?`,
     options: {
       a: "Claude reads the tool descriptions, reasons about the request, and may call multiple tools sequentially or in parallel as needed",
@@ -582,7 +582,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Section 6: Tool Use — Errors ============
   {
-    section: 6, sectionName: "Tool Use — Errors", num: 26,
+    section: 6, sectionName: "Tool Use — Errors", num: 28,
     text: `A developer's tool function has no try/except wrapping. During a live user session, the tool raises an unhandled <code>requests.exceptions.Timeout</code>. What does the user see?`,
     options: {
       a: "Claude apologises and offers alternative sources of information",
@@ -594,7 +594,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Without try/except, Python raises the exception and the script dies. The second API call never happens, so Claude never gets a chance to respond."
   },
   {
-    section: 6, sectionName: "Tool Use — Errors", num: 27,
+    section: 6, sectionName: "Tool Use — Errors", num: 29,
     text: `Your <code>get_stock_price</code> tool doesn't wrap its API call in try/except. During a live user session, the stock API returns a 503 and <code>requests.raise_for_status()</code> throws. What does the user see in the chat interface?`,
     options: {
       a: "Claude saying: \"The stock service is currently unavailable, please try again later\"",
@@ -606,7 +606,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Same as Q26. No API call = no Claude response. The user sees whatever the client displays for a hung tool call; the developer sees the traceback."
   },
   {
-    section: 6, sectionName: "Tool Use — Errors", num: 28,
+    section: 6, sectionName: "Tool Use — Errors", num: 30,
     text: `Your tool returns the string <code>"Error: database connection timed out after 30s"</code> when the DB is unreachable. What is Claude most likely to do with this in the final response?`,
     options: {
       a: "Include the technical error verbatim in the user-facing response",
@@ -618,7 +618,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Claude reads <code>tool_result</code> content and reasons about it. A human-readable error string is interpreted as failure and translated into user-appropriate language."
   },
   {
-    section: 6, sectionName: "Tool Use — Errors", num: 29,
+    section: 6, sectionName: "Tool Use — Errors", num: 31,
     text: `A tool function returns <code>len(some_string)</code> (an integer). The developer puts it directly in the tool_result content field:<pre>{"type": "tool_result", "tool_use_id": id, "content": len_result}</pre>What happens?`,
     options: {
       a: "It works fine — the API accepts any content type",
@@ -630,7 +630,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "<code>tool_result</code> content must be a string. Integer content triggers a 400 error."
   },
   {
-    section: 6, sectionName: "Tool Use — Errors", num: 30,
+    section: 6, sectionName: "Tool Use — Errors", num: 32,
     text: `You're designing an agent for graceful degradation when external tools fail. Which design pattern is essential?`,
     options: {
       a: "Adding a \"try harder\" instruction to the system prompt",
@@ -644,7 +644,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Section 7: MCP — Concepts ============
   {
-    section: 7, sectionName: "MCP — Concepts", num: 31,
+    section: 7, sectionName: "MCP — Concepts", num: 33,
     text: `Which best describes an <strong>MCP client</strong>?`,
     options: {
       a: "A program that provides tools (like GitHub or Postgres access) to be consumed by AI apps",
@@ -656,7 +656,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Client = the AI app that consumes tools (Claude Desktop, Cursor, etc.)."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 32,
+    section: 7, sectionName: "MCP — Concepts", num: 34,
     text: `Which best describes an <strong>MCP server</strong>?`,
     options: {
       a: "An AI application that consumes tools",
@@ -668,7 +668,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Server = the program that provides tools/resources/prompts. Kitchen (serves) vs diner (consumes)."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 33,
+    section: 7, sectionName: "MCP — Concepts", num: 35,
     text: `An engineer says: "I can just write tools inline in my Python script like weeks 3-4. Why do I need MCP?" What's the strongest argument for MCP?`,
     options: {
       a: "MCP tools are faster than inline tools",
@@ -680,7 +680,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "MCP's real value is reusability across AI apps and separation of tool implementation from consumption."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 34,
+    section: 7, sectionName: "MCP — Concepts", num: 36,
     text: `A user asks Claude: "What's in the file at <code>C:\\Users\\me\\project\\notes.md</code> right now?" Claude can only answer accurately if:`,
     options: {
       a: "The file was part of Claude's training data",
@@ -692,7 +692,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Both B and C work. Training didn't include your personal files. Either paste the content or have runtime file access via MCP."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 35,
+    section: 7, sectionName: "MCP — Concepts", num: 37,
     text: `You're browsing a public directory of MCP servers and find one that says it "makes any AI 10x better at coding" from an unknown author. What's the appropriate response?`,
     options: {
       a: "Install it — MCP servers run in sandboxes, so there's no risk",
@@ -704,7 +704,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "MCP servers execute code on your machine with your permissions. Treat unknown sources as untrusted."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 36,
+    section: 7, sectionName: "MCP — Concepts", num: 38,
     text: `Why does the Linux Foundation governance shift for MCP matter for someone learning it today?`,
     options: {
       a: "It means MCP servers now require paid licensing",
@@ -716,7 +716,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "Multi-vendor governance means MCP is an industry standard, not an Anthropic thing. Skills transfer across platforms."
   },
   {
-    section: 7, sectionName: "MCP — Concepts", num: 37,
+    section: 7, sectionName: "MCP — Concepts", num: 39,
     text: `Between stdio and HTTP transports for MCP servers, when would you use each?`,
     options: {
       a: "stdio for personal machine / local tools; HTTP for remote / shared servers",
@@ -730,7 +730,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Section 8: MCP — Building ============
   {
-    section: 8, sectionName: "MCP — Building", num: 38,
+    section: 8, sectionName: "MCP — Building", num: 40,
     text: `You've written a Python function and put <code>@mcp.tool()</code> above it in a FastMCP server. What does that decorator do?`,
     options: {
       a: "It runs the function immediately when the server starts",
@@ -742,7 +742,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "<code>@mcp.tool()</code> exposes the function as an MCP tool. FastMCP inspects the signature (type hints) to generate the input schema and uses the docstring as the tool description."
   },
   {
-    section: 8, sectionName: "MCP — Building", num: 39,
+    section: 8, sectionName: "MCP — Building", num: 41,
     text: `You wrote a docstring on your MCP tool function: "Get the current English Premier League table...". What role does that docstring play when a client like Claude Desktop uses this server?`,
     options: {
       a: "Just for other developers reading your code — Claude doesn't see it",
@@ -754,7 +754,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "The docstring is what Claude reads to decide when to invoke the tool. Clear docstrings = better tool selection."
   },
   {
-    section: 8, sectionName: "MCP — Building", num: 40,
+    section: 8, sectionName: "MCP — Building", num: 42,
     text: `Your MCP server runs and works in the MCP Inspector via <code>mcp dev</code>. What needs to happen for Claude Desktop to be able to use this server in a real chat?`,
     options: {
       a: "Nothing — Claude Desktop auto-discovers running MCP servers",
@@ -768,7 +768,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Section 9: Extra ============
   {
-    section: 9, sectionName: "Extra", num: 41,
+    section: 9, sectionName: "Extra", num: 45,
     text: `In one sentence, what does <code>str()</code> do in the context of preparing a value to return from a tool function?`,
     options: {
       a: "Removes all non-alphabetic characters",
@@ -780,7 +780,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "<code>str()</code> converts values to their string representation. Needed because <code>tool_result</code> content must be a string."
   },
   {
-    section: 9, sectionName: "Extra", num: 42,
+    section: 9, sectionName: "Extra", num: 46,
     text: `Why is fixing a data-type conversion inside the tool function itself (rather than at the send-back point) generally safer?`,
     options: {
       a: "Functions are faster than external conversions",
@@ -794,7 +794,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Additions to Section 3: Response Handling ============
   {
-    section: 3, sectionName: "Response Handling", num: 43,
+    section: 3, sectionName: "Response Handling", num: 10,
     text: `You want Claude to explain its reasoning to the user <em>before</em> calling a tool — something like: "Let me check the weather for you..." — and then still call the tool. What actually happens in practice?`,
     options: {
       a: "Impossible — Claude can only produce a <code>tool_use</code> block in a tool-use response, no text",
@@ -808,7 +808,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Additions to Section 5: Tool Use — Loop ============
   {
-    section: 5, sectionName: "Tool Use — Loop", num: 44,
+    section: 5, sectionName: "Tool Use — Loop", num: 27,
     text: `In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decides based on that result that it needs to call ANOTHER tool. What must your code do for this to work?`,
     options: {
       a: "Claude can only call one tool per session — you'd need to restart",
@@ -822,7 +822,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
 
   // ============ Additions to Section 8: MCP — Building ============
   {
-    section: 8, sectionName: "MCP — Building", num: 45,
+    section: 8, sectionName: "MCP — Building", num: 43,
     text: `You've built an MCP server that wraps a slow external API (30-second response time). A user asks Claude a question that would call this tool. What's a legitimate concern?`,
     options: {
       a: "Claude will time out and lose the conversation",
@@ -834,7 +834,7 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     explanation: "MCP servers can call any API but tool response time becomes user-perceived latency. Slow tools need caching, async design, or a progress-reporting pattern."
   },
   {
-    section: 8, sectionName: "MCP — Building", num: 46,
+    section: 8, sectionName: "MCP — Building", num: 44,
     text: `You want to write an MCP server that exposes a <em>read-only</em> view of your team's PostgreSQL database. What's the safest design?`,
     options: {
       a: "Give the MCP server a superuser database credential so any query works",

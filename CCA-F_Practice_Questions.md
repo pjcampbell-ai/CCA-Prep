@@ -145,7 +145,7 @@ Your code does `tool_block = response.content[0]`. What happens?
 
 # Section 4: Context Management — Stateless Memory, Cost Scaling
 
-## Q10
+## Q11
 
 A user chats with a Claude-powered bot for 20 turns. The developer restarts the Python process. On turn 21, the user asks: *"What was that number I asked you to remember?"* What happens?
 
@@ -154,7 +154,7 @@ A user chats with a Claude-powered bot for 20 turns. The developer restarts the 
 - **c)** Anthropic caches conversation history for 24 hours by API key
 - **d)** Claude asks the user to log in to restore session
 
-## Q11
+## Q12
 
 A user has been chatting with a Claude-powered bot for 20 turns. The developer decides to restart the Python process. On turn 21, the user asks: *"What did I say earlier about my project deadline?"* What happens?
 
@@ -163,7 +163,7 @@ A user has been chatting with a Claude-powered bot for 20 turns. The developer d
 - **c)** Claude asks the user to log back in
 - **d)** The API returns an error because the session token is stale
 
-## Q12
+## Q13
 
 Which statement about conversation memory in the Anthropic API is accurate?
 
@@ -172,7 +172,7 @@ Which statement about conversation memory in the Anthropic API is accurate?
 - **c)** Only the last 10 exchanges are cached server-side for continuity
 - **d)** The `assistant` role stores state; the `user` role does not
 
-## Q13
+## Q14
 
 Agent A completes tasks in 5 turns on average. Agent B does the same tasks but takes 30 turns (more careful reasoning). Same model, same tools, same per-turn message lengths. Approximate cost ratio B/A per session?
 
@@ -181,7 +181,7 @@ Agent A completes tasks in 5 turns on average. Agent B does the same tasks but t
 - **c)** Same cost (Anthropic caches conversation history)
 - **d)** ~2-3x (efficiency gains scale sublinearly)
 
-## Q14
+## Q15
 
 A support chatbot's cost per conversation is £0.30 at 15 turns. Assuming user and assistant message lengths remain similar throughout, what would you roughly expect a 30-turn session to cost?
 
@@ -190,7 +190,7 @@ A support chatbot's cost per conversation is £0.30 at 15 turns. Assuming user a
 - **c)** Significantly more than £0.60 — later turns send more history than earlier turns
 - **d)** About £0.45 — the model is more efficient with longer context
 
-## Q15
+## Q16
 
 A developer's chatbot works fine in isolated tests but "forgets things" in longer conversations. Their code:
 
@@ -210,7 +210,7 @@ What's the bug?
 - **c)** The loop should use streaming
 - **d)** `max_tokens` is undefined
 
-## Q16
+## Q17
 
 A developer wants Claude to have full conversation memory. Which of these code patterns achieves that?
 
@@ -238,7 +238,7 @@ response = client.messages.create(messages=[{"role": "user", "content": user_inp
 - **c)** Pattern C
 - **d)** All three achieve full memory
 
-## Q17
+## Q18
 
 If Claude correctly appends both user and assistant messages every turn, how many entries are in the `messages` list at the end of a 10-turn conversation?
 
@@ -247,7 +247,7 @@ If Claude correctly appends both user and assistant messages every turn, how man
 - **c)** 11 (10 user + 1 assistant summary)
 - **d)** Depends on the `max_tokens` setting
 
-## Q18
+## Q19
 
 You accidentally delete the line that appends the assistant reply back to `messages`. The script still runs without errors. What behaviour changes?
 
@@ -260,7 +260,7 @@ You accidentally delete the line that appends the assistant reply back to `messa
 
 # Section 5: Tool Use — The Loop, tool_use Blocks, tool_result
 
-## Q19
+## Q20
 
 You've built a tool-enabled agent. A user asks a question Claude can answer using an available tool. Why does the interaction require two API calls rather than one?
 
@@ -269,7 +269,7 @@ You've built a tool-enabled agent. A user asks a question Claude can answer usin
 - **c)** The first returns Claude's request to use a tool; after your code runs the tool, the second sends the result back for Claude to compose the final answer
 - **d)** The first is a dry-run to estimate cost; the second is the real call
 
-## Q20
+## Q21
 
 Claude decides to use a tool. What does the response contain?
 
@@ -278,7 +278,7 @@ Claude decides to use a tool. What does the response contain?
 - **c)** A text answer that includes the tool name in brackets
 - **d)** A stop_reason of `tool_result`
 
-## Q21
+## Q22
 
 You've defined a `get_stock_price` tool. A user asks: *"What's Apple's stock price?"* You inspect `response.content` from the first API call. Which best describes what's inside?
 
@@ -287,7 +287,7 @@ You've defined a `get_stock_price` tool. A user asks: *"What's Apple's stock pri
 - **c)** A string with Apple's stock price already looked up by Claude
 - **d)** An empty list — the tool was executed silently
 
-## Q22
+## Q23
 
 Your Python code has run a tool and now needs to send the result back to Claude. What is the correct `role` for the message containing the `tool_result` block?
 
@@ -296,7 +296,7 @@ Your Python code has run a tool and now needs to send the result back to Claude.
 - **c)** `user`
 - **d)** `system`
 
-## Q23
+## Q24
 
 Claude's response contains three `tool_use` blocks (parallel tool calls). How should you structure the response back to the API?
 
@@ -305,7 +305,7 @@ Claude's response contains three `tool_use` blocks (parallel tool calls). How sh
 - **c)** One `assistant` message containing all three results concatenated as text
 - **d)** Send only the first result; Claude will re-request the others
 
-## Q24
+## Q25
 
 Claude's response contains two tool_use blocks with IDs `"toolu_abc"` and `"toolu_xyz"`. What's true about your response back to the API?
 
@@ -314,7 +314,7 @@ Claude's response contains two tool_use blocks with IDs `"toolu_abc"` and `"tool
 - **c)** `tool_use_id` is optional when there's only one recent tool call
 - **d)** Order and IDs don't matter — the API pairs them automatically
 
-## Q25
+## Q26
 
 You have five tools available: `get_weather`, `calculator`, `stock_lookup`, `translate_text`, and `word_count`. A user asks: *"How many words are in the French translation of 'Hello world'?"* How does Claude decide which tool(s) to use, and in what order?
 
@@ -327,7 +327,7 @@ You have five tools available: `get_weather`, `calculator`, `stock_lookup`, `tra
 
 # Section 6: Tool Use — Error Handling & Data Types
 
-## Q26
+## Q28
 
 A developer's tool function has no try/except wrapping. During a live user session, the tool raises an unhandled `requests.exceptions.Timeout`. What does the user see?
 
@@ -336,7 +336,7 @@ A developer's tool function has no try/except wrapping. During a live user sessi
 - **c)** Claude answers from its own training data instead
 - **d)** A Python traceback; the script terminates before the second API call is made
 
-## Q27
+## Q29
 
 Your `get_stock_price` tool doesn't wrap its API call in try/except. During a live user session, the stock API returns a 503 and `requests.raise_for_status()` throws. What does the user see in the chat interface?
 
@@ -345,7 +345,7 @@ Your `get_stock_price` tool doesn't wrap its API call in try/except. During a li
 - **c)** Nothing visible; the script terminates with a Python traceback in the developer's terminal, no message ever reaches the chat interface
 - **d)** Claude answering with its best guess of Apple's stock price from training data
 
-## Q28
+## Q30
 
 Your tool returns the string `"Error: database connection timed out after 30s"` when the DB is unreachable. What is Claude most likely to do with this in the final response?
 
@@ -354,7 +354,7 @@ Your tool returns the string `"Error: database connection timed out after 30s"` 
 - **c)** Read the error, understand it as a failure, and translate it into user-appropriate language (apology, alternatives)
 - **d)** Retry the tool up to three times before giving up
 
-## Q29
+## Q31
 
 A tool function returns `len(some_string)` (an integer). The developer puts it directly in the tool_result content field:
 
@@ -369,7 +369,7 @@ What happens?
 - **c)** Claude interprets the integer as a token count
 - **d)** The response is silently truncated
 
-## Q30
+## Q32
 
 You're designing an agent for graceful degradation when external tools fail. Which design pattern is essential?
 
@@ -382,7 +382,7 @@ You're designing an agent for graceful degradation when external tools fail. Whi
 
 # Section 7: MCP — Concepts and Ecosystem
 
-## Q31
+## Q33
 
 Which best describes an **MCP client**?
 
@@ -391,7 +391,7 @@ Which best describes an **MCP client**?
 - **c)** The underlying JSON-RPC protocol that transports MCP messages
 - **d)** A remote server hosted by Anthropic that stores connector configurations
 
-## Q32 (~)
+## Q34 (~)
 
 Which best describes an **MCP server**?
 
@@ -400,7 +400,7 @@ Which best describes an **MCP server**?
 - **c)** A configuration file listing available connectors
 - **d)** The wire format used to transport messages
 
-## Q33
+## Q35
 
 An engineer says: *"I can just write tools inline in my Python script like weeks 3-4. Why do I need MCP?"* What's the strongest argument for MCP?
 
@@ -409,7 +409,7 @@ An engineer says: *"I can just write tools inline in my Python script like weeks
 - **c)** MCP separates tool definitions from AI applications, so one tool implementation (e.g., a GitHub server) can be reused across many AI apps without code duplication
 - **d)** MCP tools work without Claude having to reason about them
 
-## Q34
+## Q36
 
 A user asks Claude: *"What's in the file at `C:\Users\me\project\notes.md` right now?"* Claude can only answer accurately if:
 
@@ -418,7 +418,7 @@ A user asks Claude: *"What's in the file at `C:\Users\me\project\notes.md` right
 - **c)** The user copy-pastes the file contents into the message
 - **d)** Both B and C would work
 
-## Q35
+## Q37
 
 You're browsing a public directory of MCP servers and find one that says it "makes any AI 10x better at coding" from an unknown author. What's the appropriate response?
 
@@ -427,7 +427,7 @@ You're browsing a public directory of MCP servers and find one that says it "mak
 - **c)** Treat it like installing a random browser extension or unverified app — the risk is code execution on your machine and potential data exposure; stick to reputable sources
 - **d)** Install it only if it has more than 100 GitHub stars
 
-## Q36 (~)
+## Q38 (~)
 
 Why does the Linux Foundation governance shift for MCP matter for someone learning it today?
 
@@ -436,7 +436,7 @@ Why does the Linux Foundation governance shift for MCP matter for someone learni
 - **c)** MCP tools are now hosted centrally on Linux Foundation servers
 - **d)** It affects which MCP servers you're legally allowed to use
 
-## Q37 (~)
+## Q39 (~)
 
 Between stdio and HTTP transports for MCP servers, when would you use each?
 
@@ -449,7 +449,7 @@ Between stdio and HTTP transports for MCP servers, when would you use each?
 
 # Section 8: MCP — Building Servers
 
-## Q38 (~)
+## Q40 (~)
 
 You've written a Python function and put `@mcp.tool()` above it in a FastMCP server. What does that decorator do?
 
@@ -458,7 +458,7 @@ You've written a Python function and put `@mcp.tool()` above it in a FastMCP ser
 - **c)** It converts the function to run asynchronously
 - **d)** It caches the function's return value
 
-## Q39 (~)
+## Q41 (~)
 
 You wrote a docstring on your MCP tool function: *"Get the current English Premier League table..."*. What role does that docstring play when a client like Claude Desktop uses this server?
 
@@ -467,7 +467,7 @@ You wrote a docstring on your MCP tool function: *"Get the current English Premi
 - **c)** It's shown to the end user as help text
 - **d)** It's logged for debugging purposes
 
-## Q40 (~)
+## Q42 (~)
 
 Your MCP server runs and works in the MCP Inspector via `mcp dev`. What needs to happen for Claude Desktop to be able to use this server in a real chat?
 
@@ -480,7 +480,7 @@ Your MCP server runs and works in the MCP Inspector via `mcp dev`. What needs to
 
 # Section 9: Extra Concept Consolidation
 
-## Q41 (~)
+## Q45 (~)
 
 In one sentence, what does `str()` do in the context of preparing a value to return from a tool function?
 
@@ -489,7 +489,7 @@ In one sentence, what does `str()` do in the context of preparing a value to ret
 - **c)** Truncates a value to 100 characters
 - **d)** Adds quotes around a string
 
-## Q42 (~)
+## Q46 (~)
 
 Why is fixing a data-type conversion inside the tool function itself (rather than at the send-back point) generally safer?
 
@@ -502,7 +502,7 @@ Why is fixing a data-type conversion inside the tool function itself (rather tha
 
 # Section 3 (additional)
 
-## Q43
+## Q10
 
 You want Claude to explain its reasoning to the user *before* calling a tool — something like *"Let me check the weather for you..."* — and then still call the tool. What actually happens in practice?
 
@@ -515,7 +515,7 @@ You want Claude to explain its reasoning to the user *before* calling a tool —
 
 # Section 5 (additional)
 
-## Q44
+## Q27
 
 In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decides based on that result that it needs to call ANOTHER tool. What must your code do for this to work?
 
@@ -528,7 +528,7 @@ In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decid
 
 # Section 8 (additional)
 
-## Q45
+## Q43
 
 You've built an MCP server that wraps a slow external API (30-second response time). A user asks Claude a question that would call this tool. What's a legitimate concern?
 
@@ -537,7 +537,7 @@ You've built an MCP server that wraps a slow external API (30-second response ti
 - **c)** MCP servers can't call external APIs at all
 - **d)** The tool will auto-fail after 10 seconds
 
-## Q46
+## Q44
 
 You want to write an MCP server that exposes a *read-only* view of your team's PostgreSQL database. What's the safest design?
 
@@ -634,67 +634,67 @@ You're using Claude Code to refactor a project. Claude proposes running `rm -rf 
 
 ## Section 4
 
-- **Q10: b** — API is stateless. Restart = fresh `messages` list = no memory.
-- **Q11: b** — Same as Q10 — no server-side session cache, no "log in to restore."
-- **Q12: b** — Stateless API. Full transcript must be re-sent every call.
-- **Q13: b** — Roughly quadratic scaling. 5 turns = sum of 1+2+3+4+5 = 15 turn-worths of input. 30 turns = 30*31/2 = 465. Ratio ≈ 31x, not 6x.
-- **Q14: c** — Same principle as Q13 — not linear because later turns send more history.
-- **Q15: b** — Missing assistant append. Claude sees only user side of conversation on each new call.
-- **Q16: b** — Pattern B correctly appends both user AND assistant to `messages`.
-- **Q17: b** — 10 user + 10 assistant = 20 entries.
-- **Q18: c** — Claude has no memory of its own prior responses, so each turn feels like the first. But it doesn't crash — the API accepts user-only history.
+- **Q11: b** — API is stateless. Restart = fresh `messages` list = no memory.
+- **Q12: b** — Same as Q10 — no server-side session cache, no "log in to restore."
+- **Q13: b** — Stateless API. Full transcript must be re-sent every call.
+- **Q14: b** — Roughly quadratic scaling. 5 turns = sum of 1+2+3+4+5 = 15 turn-worths of input. 30 turns = 30*31/2 = 465. Ratio ≈ 31x, not 6x.
+- **Q15: c** — Same principle as Q13 — not linear because later turns send more history.
+- **Q16: b** — Missing assistant append. Claude sees only user side of conversation on each new call.
+- **Q17: b** — Pattern B correctly appends both user AND assistant to `messages`.
+- **Q18: b** — 10 user + 10 assistant = 20 entries.
+- **Q19: c** — Claude has no memory of its own prior responses, so each turn feels like the first. But it doesn't crash — the API accepts user-only history.
 
 ## Section 5
 
-- **Q19: c** — Claude cannot execute code. First call = tool request. Your code runs the tool. Second call = result back to Claude for the final natural-language answer.
-- **Q20: b** — Response contains a `tool_use` block with `name`, `input`, and `id`. Claude never runs the tool — it requests one.
-- **Q21: b** — Same as Q20 — `ToolUseBlock` with name, input dict, and id.
-- **Q22: c** — Role is `user`. Roles are `user` and `assistant` only; anything sent TO Claude is `user`, regardless of content type.
-- **Q23: b** — All tool_results in one user message, as a list of blocks, each with its matching `tool_use_id`.
-- **Q24: b** — Same as Q23 — one message, list of results, IDs matter.
-- **Q25: a** — Claude reads tool descriptions, reasons about the request, plans multi-step tool use itself. This is the beginning of agent behaviour.
+- **Q20: c** — Claude cannot execute code. First call = tool request. Your code runs the tool. Second call = result back to Claude for the final natural-language answer.
+- **Q21: b** — Response contains a `tool_use` block with `name`, `input`, and `id`. Claude never runs the tool — it requests one.
+- **Q22: b** — Same as Q20 — `ToolUseBlock` with name, input dict, and id.
+- **Q23: c** — Role is `user`. Roles are `user` and `assistant` only; anything sent TO Claude is `user`, regardless of content type.
+- **Q24: b** — All tool_results in one user message, as a list of blocks, each with its matching `tool_use_id`.
+- **Q25: b** — Same as Q23 — one message, list of results, IDs matter.
+- **Q26: a** — Claude reads tool descriptions, reasons about the request, plans multi-step tool use itself. This is the beginning of agent behaviour.
 
 ## Section 6
 
-- **Q26: d** — Without try/except, Python raises the exception and the script dies. The second API call never happens, so Claude never gets a chance to respond.
-- **Q27: c** — Same as Q26. No API call = no Claude response. The user sees whatever the client displays for a hung tool call; the developer sees the traceback.
-- **Q28: c** — Claude reads `tool_result` content and reasons about it. A human-readable error string is interpreted as failure and translated into user-appropriate language.
-- **Q29: b** — `tool_result` content must be a string. Integer content triggers a 400 error.
-- **Q30: b** — try/except that converts exceptions into strings is the essential pattern. Without it, crashes kill the script before Claude can respond.
+- **Q28: d** — Without try/except, Python raises the exception and the script dies. The second API call never happens, so Claude never gets a chance to respond.
+- **Q29: c** — Same as Q26. No API call = no Claude response. The user sees whatever the client displays for a hung tool call; the developer sees the traceback.
+- **Q30: c** — Claude reads `tool_result` content and reasons about it. A human-readable error string is interpreted as failure and translated into user-appropriate language.
+- **Q31: b** — `tool_result` content must be a string. Integer content triggers a 400 error.
+- **Q32: b** — try/except that converts exceptions into strings is the essential pattern. Without it, crashes kill the script before Claude can respond.
 
 ## Section 7
 
-- **Q31: b** — Client = the AI app that consumes tools (Claude Desktop, Cursor, etc.).
-- **Q32: b** — Server = the program that provides tools/resources/prompts. Kitchen (serves) vs diner (consumes).
-- **Q33: c** — MCP's real value is reusability across AI apps and separation of tool implementation from consumption.
-- **Q34: d** — Both B and C work. Training didn't include your personal files. Either paste the content or have runtime file access via MCP.
-- **Q35: c** — MCP servers execute code on your machine with your permissions. Treat unknown sources as untrusted.
-- **Q36: b** — Multi-vendor governance means MCP is an industry standard, not an Anthropic thing. Skills transfer across platforms.
-- **Q37: a** — stdio = local (server is a subprocess of the client). HTTP = remote/hosted.
+- **Q33: b** — Client = the AI app that consumes tools (Claude Desktop, Cursor, etc.).
+- **Q34: b** — Server = the program that provides tools/resources/prompts. Kitchen (serves) vs diner (consumes).
+- **Q35: c** — MCP's real value is reusability across AI apps and separation of tool implementation from consumption.
+- **Q36: d** — Both B and C work. Training didn't include your personal files. Either paste the content or have runtime file access via MCP.
+- **Q37: c** — MCP servers execute code on your machine with your permissions. Treat unknown sources as untrusted.
+- **Q38: b** — Multi-vendor governance means MCP is an industry standard, not an Anthropic thing. Skills transfer across platforms.
+- **Q39: a** — stdio = local (server is a subprocess of the client). HTTP = remote/hosted.
 
 ## Section 8
 
-- **Q38: b** — `@mcp.tool()` exposes the function as an MCP tool. FastMCP inspects the signature (type hints) to generate the input schema and uses the docstring as the tool description.
-- **Q39: b** — The docstring is what Claude reads to decide when to invoke the tool. Clear docstrings = better tool selection.
-- **Q40: b** — Register the server in Claude Desktop's config (`claude_desktop_config.json`) or install as an extension, then restart Claude Desktop.
+- **Q40: b** — `@mcp.tool()` exposes the function as an MCP tool. FastMCP inspects the signature (type hints) to generate the input schema and uses the docstring as the tool description.
+- **Q41: b** — The docstring is what Claude reads to decide when to invoke the tool. Clear docstrings = better tool selection.
+- **Q42: b** — Register the server in Claude Desktop's config (`claude_desktop_config.json`) or install as an extension, then restart Claude Desktop.
 
 ## Section 9
 
-- **Q41: b** — `str()` converts values to their string representation. Needed because `tool_result` content must be a string.
-- **Q42: b** — Fix in the function = one fix protects all call sites. Fix at send-back = must remember every time, easy to miss.
+- **Q45: b** — `str()` converts values to their string representation. Needed because `tool_result` content must be a string.
+- **Q46: b** — Fix in the function = one fix protects all call sites. Fix at send-back = must remember every time, easy to miss.
 
 ## Section 3 (additional)
 
-- **Q43: b** — `response.content` is a list of blocks. Claude regularly produces TextBlock(s) followed by ToolUseBlock(s) in one response. Iterating and handling both types is essential.
+- **Q10: b** — `response.content` is a list of blocks. Claude regularly produces TextBlock(s) followed by ToolUseBlock(s) in one response. Iterating and handling both types is essential.
 
 ## Section 5 (additional)
 
-- **Q44: c** — Agentic behaviour = a loop. While Claude returns `tool_use`, run the tool and send the result back. Only stop when `stop_reason == 'end_turn'`.
+- **Q27: c** — Agentic behaviour = a loop. While Claude returns `tool_use`, run the tool and send the result back. Only stop when `stop_reason == 'end_turn'`.
 
 ## Section 8 (additional)
 
-- **Q45: b** — MCP servers can call any API, but tool response time = user-perceived latency. Slow tools need caching, async patterns, or progress reporting.
-- **Q46: b** — Principle of least privilege. Enforce read-only at the database layer (role permissions), not via prompts or model discretion. Core MCP security pattern.
+- **Q43: b** — MCP servers can call any API, but tool response time = user-perceived latency. Slow tools need caching, async patterns, or progress reporting.
+- **Q44: b** — Principle of least privilege. Enforce read-only at the database layer (role permissions), not via prompts or model discretion. Core MCP security pattern.
 
 ## Section 10: Prompt Caching
 
