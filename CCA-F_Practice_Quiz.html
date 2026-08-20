@@ -238,6 +238,8 @@
       <option value="7">7. MCP — Concepts</option>
       <option value="8">8. MCP — Building</option>
       <option value="9">9. Extra</option>
+      <option value="10">10. Prompt Caching</option>
+      <option value="11">11. Claude Code</option>
     </select>
   </label>
   <button id="check-all" class="primary">Check all answered</button>
@@ -248,7 +250,7 @@
 <div id="questions-container"></div>
 
 <div class="footer">
-  Question bank compiled from PJ's CCA-F coaching sessions · Last updated end of week 5 material.
+  Question bank compiled from PJ's CCA-F coaching sessions · 52 questions across 11 sections.
 </div>
 
 <script>
@@ -788,6 +790,136 @@ messages.append({"role": "assistant", "content": response.content[0].text})</pre
     },
     correct: "b",
     explanation: "Fix in the function = one fix protects all call sites. Fix at send-back = must remember every time, easy to miss."
+  },
+
+  // ============ Additions to Section 3: Response Handling ============
+  {
+    section: 3, sectionName: "Response Handling", num: 43,
+    text: `You want Claude to explain its reasoning to the user <em>before</em> calling a tool — something like: "Let me check the weather for you..." — and then still call the tool. What actually happens in practice?`,
+    options: {
+      a: "Impossible — Claude can only produce a <code>tool_use</code> block in a tool-use response, no text",
+      b: "Claude often produces both a TextBlock (explaining intent) AND a ToolUseBlock in the same response — both appear in <code>response.content</code>",
+      c: "You have to make two separate API calls: one for the text, one for the tool call",
+      d: "The <code>tool_use</code> block must always be the first content block, before any text"
+    },
+    correct: "b",
+    explanation: "<code>response.content</code> is a list of blocks. Claude regularly produces TextBlock(s) followed by ToolUseBlock(s) in a single response. Iterating and handling both types is essential."
+  },
+
+  // ============ Additions to Section 5: Tool Use — Loop ============
+  {
+    section: 5, sectionName: "Tool Use — Loop", num: 44,
+    text: `In a multi-turn tool-using agent, Claude calls a tool, gets a result, then decides based on that result that it needs to call ANOTHER tool. What must your code do for this to work?`,
+    options: {
+      a: "Claude can only call one tool per session — you'd need to restart",
+      b: "You must batch all tool calls upfront — Claude cannot make sequential decisions",
+      c: "The agent loop must continue calling the API until <code>stop_reason</code> is <code>end_turn</code>. Each new <code>tool_use</code> response triggers another tool run + reply cycle",
+      d: "Claude decides internally and returns all tool results in one final response"
+    },
+    correct: "c",
+    explanation: "Agentic behaviour comes from a loop: while Claude keeps returning <code>tool_use</code>, run the tool and send the result back. Only stop when <code>stop_reason == 'end_turn'</code>."
+  },
+
+  // ============ Additions to Section 8: MCP — Building ============
+  {
+    section: 8, sectionName: "MCP — Building", num: 45,
+    text: `You've built an MCP server that wraps a slow external API (30-second response time). A user asks Claude a question that would call this tool. What's a legitimate concern?`,
+    options: {
+      a: "Claude will time out and lose the conversation",
+      b: "The tool call will exceed reasonable user-facing latency — consider async patterns, caching, or progress reporting via streaming",
+      c: "MCP servers can't call external APIs at all",
+      d: "The tool will auto-fail after 10 seconds"
+    },
+    correct: "b",
+    explanation: "MCP servers can call any API but tool response time becomes user-perceived latency. Slow tools need caching, async design, or a progress-reporting pattern."
+  },
+  {
+    section: 8, sectionName: "MCP — Building", num: 46,
+    text: `You want to write an MCP server that exposes a <em>read-only</em> view of your team's PostgreSQL database. What's the safest design?`,
+    options: {
+      a: "Give the MCP server a superuser database credential so any query works",
+      b: "Use a dedicated read-only database role with SELECT-only permissions, so the AI can query but never modify data",
+      c: "Add \"please don't modify data\" to the system prompt and hope for the best",
+      d: "Trust the AI to be careful with UPDATE and DELETE statements"
+    },
+    correct: "b",
+    explanation: "Principle of least privilege. Enforce read-only at the database layer via role permissions — don't rely on prompts or the model's discretion. This is a core MCP security pattern."
+  },
+
+  // ============ Section 10: Prompt Caching ============
+  {
+    section: 10, sectionName: "Prompt Caching", num: 47,
+    text: `Prompt caching in the Anthropic API — what's the primary benefit?`,
+    options: {
+      a: "It makes model responses faster to generate",
+      b: "It reduces cost and latency by caching parts of the input prompt server-side, so they don't need to be re-processed on subsequent calls",
+      c: "It stores Claude's responses server-side for faster retrieval next time",
+      d: "It lets Claude remember previous conversations without you re-sending them"
+    },
+    correct: "b",
+    explanation: "Prompt caching is about the INPUT side — caching stable prefixes (system prompts, tool definitions, docs) so they aren't re-processed on every call. Cache reads are significantly cheaper than fresh input tokens. It does NOT give Claude memory."
+  },
+  {
+    section: 10, sectionName: "Prompt Caching", num: 48,
+    text: `Your agent sends a 20,000-token system prompt (large tool definitions + reference docs) plus a small user query every turn. You enable prompt caching on the large prefix. What effect is likely?`,
+    options: {
+      a: "The user query gets faster responses because prompts are shorter",
+      b: "The 20,000-token prefix is cached after first use; subsequent calls only re-process the small user query, dramatically lowering cost per turn",
+      c: "The model produces higher-quality answers",
+      d: "The context window effectively doubles in size"
+    },
+    correct: "b",
+    explanation: "Cache the stable, expensive prefix once. Subsequent calls charge the cheaper 'cache read' rate for that prefix and only pay full input rates for the small changing part (the user query). Cost savings can be 90%+ on long-context agents."
+  },
+
+  // ============ Section 11: Claude Code ============
+  {
+    section: 11, sectionName: "Claude Code", num: 49,
+    text: `What is Claude Code?`,
+    options: {
+      a: "A specific model (like Sonnet or Haiku) optimised for code generation",
+      b: "A command-line / IDE agent tool from Anthropic that lets developers use Claude as an agent for real coding tasks (edit files, run commands, use MCP tools) in their own terminal",
+      c: "A subscription tier on anthropic.com",
+      d: "A dataset used to train Claude on code"
+    },
+    correct: "b",
+    explanation: "Claude Code is Anthropic's agentic coding tool. It runs locally, has access to your filesystem and shell, and can use MCP servers. Not a model — a client/agent built on top of Claude."
+  },
+  {
+    section: 11, sectionName: "Claude Code", num: 50,
+    text: `Claude Code needs to work with your codebase. How does it access your files and tools?`,
+    options: {
+      a: "It uploads your entire codebase to Anthropic servers for analysis",
+      b: "It runs locally on your machine — executes commands you approve, reads files you point it at, and sends only relevant context to the Claude API",
+      c: "You must manually paste code snippets one at a time into a chat window",
+      d: "It uses a proprietary compiler to analyse code offline"
+    },
+    correct: "b",
+    explanation: "Claude Code runs as a local agent. Files stay on your machine. Only relevant context is sent to the API per call. This is a core privacy/security property — no wholesale codebase upload."
+  },
+  {
+    section: 11, sectionName: "Claude Code", num: 51,
+    text: `How do Claude Code and MCP relate?`,
+    options: {
+      a: "Claude Code is an MCP server that other AI apps can call",
+      b: "Claude Code is an MCP client — you can configure MCP servers (GitHub, filesystem, Postgres, etc.) in its config and Claude Code will use them as tools",
+      c: "Claude Code replaces MCP entirely — you don't need MCP if you have Claude Code",
+      d: "MCP only works with Claude Desktop, not Claude Code"
+    },
+    correct: "b",
+    explanation: "Claude Code is an MCP-compatible client. Any MCP server you set up (Filesystem, GitHub, custom ones you build) becomes available as tools inside Claude Code. This is how you extend its capabilities."
+  },
+  {
+    section: 11, sectionName: "Claude Code", num: 52,
+    text: `You're using Claude Code to refactor a project. Claude proposes running <code>rm -rf ./build</code>. What happens by default?`,
+    options: {
+      a: "The command runs immediately — Claude Code trusts its own suggestions",
+      b: "Claude Code shows you the command and waits for your explicit approval before executing it",
+      c: "Claude Code runs it but logs it for later review",
+      d: "Claude Code refuses to run any file-modifying commands at all"
+    },
+    correct: "b",
+    explanation: "Human-in-the-loop for destructive or potentially destructive commands is core to Claude Code's design. You retain approval authority — the agent doesn't just do whatever it wants. This is a critical safety property to understand."
   }
 ];
 
